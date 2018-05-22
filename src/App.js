@@ -5,14 +5,25 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      works: 'ABCDE'.split('').map((value, index) => {return {value, index}} ),
+      works: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((value, index) => {return {value, index}} ),
       draggingWork: null
     }
   }
 
-  swap(a,x,y) {
-    a[x]=[a[y],a[y]=a[x]][0]
-    return a
+  move(array,work,draggingWork) {
+    if (array === []) {
+      return []
+    } else if (array[0].value === draggingWork.value) {
+      return this.move(array.slice(1, array.length), work, draggingWork)
+    } else if (array[0].value === work.value) {
+      if (work.index < draggingWork.index) {
+        return [draggingWork].concat(array.filter((work) => {return work.value !== draggingWork.value}))
+      } else {
+        return [work, draggingWork].concat(array.splice(1, array.length))
+      }
+    } else {
+      return [array[0]].concat(this.move(array.slice(1, array.length), work, draggingWork))
+    }
   }
 
   classList(work) {
@@ -33,7 +44,7 @@ class App extends Component {
   handleDragEnter = (work) => {
     if (work.index === this.state.draggingWork.index) return;
 
-    const insertedWorks = this.swap([...this.state.works], work.index, this.state.draggingWork.index).map((work, index) => {
+    const insertedWorks = this.move([...this.state.works], work, this.state.draggingWork).map((work, index) => {
       return {value: work.value, index: index}
     })
 
