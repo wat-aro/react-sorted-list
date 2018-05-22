@@ -15,6 +15,14 @@ class App extends Component {
     return a
   }
 
+  classList(work) {
+    if (work.index === (this.state.draggingWork && this.state.draggingWork.index)) {
+      return "column dragging"
+    } else {
+      return "column"
+    }
+  }
+
   // Handler
   handleDragStart = (work, env) => {
     this.setState({
@@ -38,7 +46,7 @@ class App extends Component {
   // Render
   renderList() {
     return this.state.works.map((work, index) =>
-      <div className="column" key={index} draggable="true" onDragStart={(env) => this.handleDragStart(work, env)} onDragEnter={() => this.handleDragEnter(work)}>
+      <div className={this.classList(work)} key={index} draggable="true" onDragStart={(env) => this.handleDragStart(work, env)} onDragEnter={() => this.handleDragEnter(work)}>
         <header>{work.value}</header>
       </div>
     )
