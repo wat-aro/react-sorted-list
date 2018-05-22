@@ -43,10 +43,27 @@ class App extends Component {
     })
   }
 
+  handleDragEnd = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    this.setState({
+      draggingWork: null
+    })
+
+    return false
+  }
+
+  handleDrop = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    return false
+  }
+
   // Render
   renderList() {
     return this.state.works.map((work, index) =>
-      <div className={this.classList(work)} key={index} draggable="true" onDragStart={(env) => this.handleDragStart(work, env)} onDragEnter={() => this.handleDragEnter(work)}>
+      <div className={this.classList(work)} key={index} draggable="true" onDragStart={(env) => this.handleDragStart(work, env)} onDragEnter={() => this.handleDragEnter(work)} onDragEnd={this.handleDragEnd} onDrop={this.handleDrop}>
         <header>{work.value}</header>
       </div>
     )
