@@ -11,19 +11,10 @@ class App extends Component {
   }
 
   move(array,work,draggingWork) {
-    if (array === []) {
-      return []
-    } else if (array[0].value === draggingWork.value) {
-      return this.move(array.slice(1, array.length), work, draggingWork)
-    } else if (array[0].value === work.value) {
-      if (work.index < draggingWork.index) {
-        return [draggingWork].concat(array.filter((work) => {return work.value !== draggingWork.value}))
-      } else {
-        return [work, draggingWork].concat(array.splice(1, array.length))
-      }
-    } else {
-      return [array[0]].concat(this.move(array.slice(1, array.length), work, draggingWork))
-    }
+    let filterdWorks = array.filter(w => {return w.index !== draggingWork.index})
+    filterdWorks.splice(work.index, 0, draggingWork)
+
+    return filterdWorks
   }
 
   classList(work) {
