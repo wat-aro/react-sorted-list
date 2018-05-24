@@ -35,7 +35,7 @@ class App extends Component {
   handleDragEnter = (work) => {
     if (work.index === this.state.draggingWork.index) return;
 
-    const insertedWorks = this.move([...this.state.works], work, this.state.draggingWork).map((work, index) => {
+    const insertedWorks = this.move(this.state.works, work, this.state.draggingWork).map((work, index) => {
       return {value: work.value, index: index}
     })
 
